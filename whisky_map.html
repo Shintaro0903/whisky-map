@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ウイスキー試飲会 会場マップ</title>
+<style>
+:root{--td:#0F6E56;--tm:#1D9E75;--tl:#E1F5EE;--al:#FAEEDA;--ad:#854F0B;
+      --gb:#F0EFEC;--gm:#B4B2A9;--gd:#3a3a38;--wall:#C8C6C0;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:#F5F4F1;color:var(--gd);}
+.hdr{background:var(--td);color:#fff;padding:14px 16px 10px;position:sticky;top:0;z-index:100;}
+.hdr h1{font-size:15px;font-weight:700;}
+.hdr p{font-size:11px;opacity:.75;margin-top:2px;}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #E0DED8;position:sticky;top:57px;z-index:99;}
+.tab{flex:1;padding:11px 4px;font-size:13px;font-weight:600;text-align:center;color:var(--gm);
+     border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;}
+.tab.on{color:var(--td);border-bottom-color:var(--tm);}
+#mv{display:block;padding:12px 10px;}#lv{display:none;}
+.venue{display:flex;flex-direction:column;}
+.hall{background:#ECEAE6;border:1px solid #C8C6C0;border-radius:10px 10px 0 0;padding:10px 8px 12px;}
+.hlbl{font-size:9px;color:var(--gm);text-align:center;margin-bottom:8px;}
+.top-row{display:flex;justify-content:center;gap:3px;margin-bottom:8px;}
+.mr{display:flex;align-items:flex-start;width:100%;}
+.wc{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.wl{font-size:8px;color:var(--gm);text-align:center;margin-bottom:3px;}
+.ai{flex:1;display:flex;align-items:center;justify-content:center;min-width:0;padding-top:26px;}
+.ai span{writing-mode:vertical-rl;font-size:8px;color:var(--gm);letter-spacing:2px;}
+.isl{display:flex;gap:3px;flex-shrink:0;}
+.ic{display:flex;flex-direction:column;gap:3px;}
+.ic.off{padding-top:26px;}
+.il{font-size:8px;color:var(--gm);text-align:center;margin-bottom:3px;}
+.b{width:30px;height:24px;border:.5px solid var(--td);border-radius:3px;background:var(--tl);
+   display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;
+   color:var(--td);cursor:pointer;flex-shrink:0;}
+.b:active{background:var(--tm);color:#fff;}
+.b.sp{background:var(--al);border-color:var(--ad);color:var(--ad);}
+.b.sp:active{background:#EF9F27;color:#fff;}
+.b.lg{width:34px;height:27px;font-size:10.5px;}
+.fb{height:13px;background:var(--gm);border-left:1px solid #C8C6C0;border-right:1px solid #C8C6C0;
+    display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;}
+.db{height:16px;background:#ECEAE6;border-left:1px solid #C8C6C0;border-right:1px solid #C8C6C0;
+    display:flex;align-items:flex-end;justify-content:space-around;padding:0 24px;}
+.dr{width:36px;height:10px;border:1px solid #aaa;border-bottom:none;border-radius:2px 2px 0 0;background:#fff;}
+.fp{background:#F2F1ED;border:1px solid #C8C6C0;border-top:none;border-radius:0 0 10px 10px;padding:7px 7px 6px;}
+.rm{background:var(--wall);border:.5px solid #999;border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:7px;color:var(--gd);text-align:center;line-height:1.2;padding:1px 2px;flex-shrink:0;}
+.vb{background:var(--wall);border:.5px solid #999;border-radius:2px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;}
+.vb span{writing-mode:vertical-rl;font-size:6.5px;color:var(--gd);}
+
+/* 上ゾーン */
+.top-zone{display:flex;align-items:flex-start;gap:3px;margin-bottom:3px;}
+.toilet-col{display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
+.mid-col{display:flex;flex-direction:column;gap:2px;margin-left:6px;}
+.right-col{margin-left:auto;display:flex;gap:3px;padding-top:0;}
+
+.men-row{margin-bottom:3px;}
+.psev-row{display:flex;gap:3px;margin-bottom:3px;}
+.sm{width:24px;height:20px;font-size:7px;}
+.skew-row{display:flex;gap:3px;margin-bottom:3px;}
+.evh{font-size:7px;color:var(--gd);writing-mode:vertical-rl;padding:0 1px;display:flex;align-items:center;flex-shrink:0;}
+.skew{background:#D0CEC9;border-radius:3px;flex:1;padding:4px;
+      clip-path:polygon(0 0,100% 0,100% 35%,45% 100%,0 100%);display:flex;gap:3px;}
+.ent{border:1.5px dashed var(--tm);border-radius:6px;padding:7px;
+     text-align:center;font-size:12px;font-weight:700;color:var(--td);margin-top:2px;}
+
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:flex-end;}
+.ov.on{display:flex;}
+.modal{background:#fff;border-radius:16px 16px 0 0;padding:20px 20px 32px;width:100%;animation:su .2s ease;}
+@keyframes su{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mbar{width:36px;height:4px;background:#E0DED8;border-radius:2px;margin:0 auto 14px;}
+.mnum{font-size:11px;color:var(--gm);margin-bottom:4px;}
+.mname{font-size:17px;font-weight:700;color:var(--gd);line-height:1.4;}
+.mcls{margin-top:18px;width:100%;padding:12px;background:var(--td);color:#fff;
+      border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
+.sw{padding:10px 12px;background:#fff;border-bottom:1px solid #ECEAE6;position:sticky;top:97px;z-index:90;}
+.sw input{width:100%;padding:9px 12px;border:1px solid #E0DED8;border-radius:8px;font-size:14px;background:var(--gb);}
+.liw{padding:6px 0 32px;}
+.li{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:.5px solid #ECEAE6;background:#fff;cursor:pointer;}
+.li:active{background:var(--tl);}
+.lnum{width:28px;height:28px;border-radius:6px;background:var(--tl);border:.5px solid var(--td);
+      display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--td);flex-shrink:0;}
+.lnum.sp{background:var(--al);border-color:var(--ad);color:var(--ad);}
+.lname{font-size:13px;line-height:1.4;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <h1>🥃 ウイスキー試飲会　会場マップ</h1>
+  <p>全79ブース　— タップするとブース情報が表示されます</p>
+</div>
+<div class="tabs">
+  <button class="tab on" onclick="showTab('map')">会場マップ</button>
+  <button class="tab"    onclick="showTab('list')">出展社一覧</button>
+</div>
+
+<div id="mv">
+<div class="venue">
+  <div class="hall">
+    <div class="hlbl">― 奥（非入口側） ―</div>
+    <div class="top-row">
+      <div class="b" onclick="S(13)">13</div><div class="b" onclick="S(14)">14</div>
+      <div class="b" onclick="S(15)">15</div><div class="b" onclick="S(16)">16</div>
+      <div class="b" onclick="S(17)">17</div><div class="b" onclick="S(18)">18</div>
+    </div>
+    <div class="mr">
+      <div class="wc"><div class="wl">左壁</div>
+        <div class="b" onclick="S(12)">12</div><div class="b" onclick="S(11)">11</div>
+        <div class="b" onclick="S(10)">10</div><div class="b" onclick="S(9)">9</div>
+        <div class="b" onclick="S(8)">8</div><div class="b" onclick="S(7)">7</div>
+        <div class="b" onclick="S(6)">6</div><div class="b" onclick="S(5)">5</div>
+        <div class="b" onclick="S(4)">4</div><div class="b" onclick="S(3)">3</div>
+        <div class="b" onclick="S(2)">2</div><div class="b" onclick="S(1)">1</div>
+      </div>
+      <div class="ai"><span>通路</span></div>
+      <div class="isl">
+        <div class="ic"><div class="il">左島</div>
+          <div class="b" onclick="S(64)">64</div><div class="b" onclick="S(65)">65</div>
+          <div class="b" onclick="S(66)">66</div><div class="b" onclick="S(67)">67</div>
+          <div class="b" onclick="S(68)">68</div><div class="b" onclick="S(69)">69</div>
+          <div class="b" onclick="S(70)">70</div><div class="b" onclick="S(71)">71</div>
+          <div class="b" onclick="S(72)">72</div><div class="b" onclick="S(73)">73</div>
+          <div class="b" onclick="S(74)">74</div>
+        </div>
+        <div class="ic off">
+          <div class="b" onclick="S(63)">63</div><div class="b" onclick="S(62)">62</div>
+          <div class="b" onclick="S(61)">61</div><div class="b" onclick="S(60)">60</div>
+          <div class="b" onclick="S(59)">59</div><div class="b" onclick="S(58)">58</div>
+          <div class="b" onclick="S(57)">57</div><div class="b" onclick="S(56)">56</div>
+          <div class="b" onclick="S(55)">55</div><div class="b" onclick="S(54)">54</div>
+          <div class="b" onclick="S(53)">53</div>
+        </div>
+      </div>
+      <div class="ai"><span>通路</span></div>
+      <div class="isl">
+        <div class="ic off">
+          <div class="b" onclick="S(42)">42</div><div class="b" onclick="S(43)">43</div>
+          <div class="b" onclick="S(44)">44</div><div class="b" onclick="S(45)">45</div>
+          <div class="b" onclick="S(46)">46</div><div class="b" onclick="S(47)">47</div>
+          <div class="b" onclick="S(48)">48</div><div class="b" onclick="S(49)">49</div>
+          <div class="b" onclick="S(50)">50</div><div class="b" onclick="S(51)">51</div>
+          <div class="b" onclick="S(52)">52</div>
+        </div>
+        <div class="ic"><div class="il">右島</div>
+          <div class="b" onclick="S(41)">41</div><div class="b" onclick="S(40)">40</div>
+          <div class="b" onclick="S(39)">39</div><div class="b" onclick="S(38)">38</div>
+          <div class="b" onclick="S(37)">37</div><div class="b" onclick="S(36)">36</div>
+          <div class="b" onclick="S(35)">35</div><div class="b" onclick="S(34)">34</div>
+          <div class="b" onclick="S(33)">33</div><div class="b" onclick="S(32)">32</div>
+          <div class="b" onclick="S(31)">31</div>
+        </div>
+      </div>
+      <div class="ai"><span>通路</span></div>
+      <div class="wc"><div class="wl">右壁</div>
+        <div class="b" onclick="S(19)">19</div><div class="b" onclick="S(20)">20</div>
+        <div class="b" onclick="S(21)">21</div><div class="b" onclick="S(22)">22</div>
+        <div class="b" onclick="S(23)">23</div><div class="b" onclick="S(24)">24</div>
+        <div class="b" onclick="S(25)">25</div><div class="b" onclick="S(26)">26</div>
+        <div class="b" onclick="S(27)">27</div><div class="b" onclick="S(28)">28</div>
+        <div class="b" onclick="S(29)">29</div><div class="b" onclick="S(30)">30</div>
+      </div>
+    </div>
+  </div>
+  <div class="fb">8 階ホワイエ</div>
+  <div class="db"><div class="dr"></div><div class="dr"></div><div class="dr"></div></div>
+
+  <div class="fp">
+    <!-- 上ゾーン -->
+    <div class="top-zone">
+      <!-- 左列：女性/多目的（同じサイズ） -->
+      <div class="toilet-col">
+        <div class="vb" style="width:20px;height:34px;"><span>女性トイレ</span></div>
+        <div class="vb" style="width:20px;height:34px;"><span>多目的トイレ</span></div>
+      </div>
+      <!-- 中列：75/76(上) + 自販機(下) 中央寄り -->
+      <div class="mid-col">
+        <div style="display:flex;gap:3px;">
+          <div class="b sp lg" onclick="S(75)">75</div>
+          <div class="b sp lg" onclick="S(76)">76</div>
+        </div>
+        <div class="rm" style="width:72px;height:36px;font-size:9.5px;">自販機</div>
+      </div>
+      <!-- 右：77/78/79 -->
+      <div class="right-col">
+        <div class="b sp lg" onclick="S(77)">77</div>
+        <div class="b sp lg" onclick="S(78)">78</div>
+        <div class="b sp lg" onclick="S(79)">79</div>
+      </div>
+    </div>
+
+    <!-- 男性トイレ -->
+    <div class="men-row">
+      <div class="rm" style="width:100%;height:20px;font-size:7.5px;">男性トイレ</div>
+    </div>
+    <!-- PS + EV×3 -->
+    <div class="psev-row">
+      <div class="rm sm">PS</div>
+      <div class="rm sm">EV</div>
+      <div class="rm sm">EV</div>
+      <div class="rm sm">EV</div>
+    </div>
+    <!-- EVホール + 斜め壁 -->
+    <div class="skew-row">
+      <div class="evh">EVホール</div>
+      <div class="skew">
+        <div class="rm" style="width:40px;height:26px;font-size:7.5px;">受付</div>
+        <div class="rm" style="width:44px;height:26px;font-size:7px;">一般<br>飲食店</div>
+      </div>
+    </div>
+    <div class="ent">▲ 入　口</div>
+  </div>
+</div>
+</div>
+
+<div id="lv">
+  <div class="sw"><input type="search" placeholder="🔍 社名・ブース番号で検索..." oninput="flt(this.value)" autocomplete="off"></div>
+  <div class="liw" id="lig"></div>
+</div>
+<div class="ov" id="ov" onclick="if(event.target===this)cls()">
+  <div class="modal">
+    <div class="mbar"></div>
+    <div class="mnum" id="mn"></div>
+    <div class="mname" id="mc"></div>
+    <button class="mcls" onclick="cls()">閉じる</button>
+  </div>
+</div>
+<script>
+const co={1:'株式会社サクラオB&D',2:'株式会社キムラ',3:'サッポロビール株式会社',4:'アイディ商事',5:'ペルノリカールジャパン株式会社',6:'株式会社篠崎',7:'日仏貿易株式会社',8:'ユニオンリカーズ株式会社',9:'小正醸造株式会社',10:'株式会社三宅本店',11:'ジェイドックス株式会社',12:'株式会社シンシア',13:'MHDモエヘネシーディアジオ㈱',14:'株式会社モトックス',15:'Whiskey&Co.株式会社',16:'キリンビール株式会社',17:'ジャパンインポート',18:'明石酒類醸造株式会社',19:'サントリー株式会社',20:'株式会社ＥＦＭ',21:'CAMPARI JAPAN株式会社',22:'紅乙女酒造',23:'リードオフジャパン株式会社',24:'本坊酒造株式会社',25:'株式会社 Returner Japan',26:'国分九州株式会社',27:'ディアジオジャパン株式会社',28:'黄桜株式会社',29:'マルカイコーポレーション株式会社',30:'ジャパニーズウイスキーストーリーズ&MAZZO',31:'ブラウンフォーマンジャパン株式会社',32:'有限会社佐多宗二商店',33:'株式会社本坊商店',34:'霧島酒造',35:'株式会社シングルキャスクジャパン',36:'株式会社堤酒造',37:'レミーコアントロージャパン株式会社',38:'高橋酒造株式会社',39:'レッドブル・ジャパン株式会社',40:'株式会社新潟小規模蒸溜所',41:'Nozawa Onsen Distillery株式会社',42:'株式会社都光',43:'株式会社都光',44:'有限会社 サンアップル醸造ジャパン',45:'宝酒造株式会社',46:'株式会社喜多屋',47:'三菱食品株式会社',48:'小牧醸造株式会社',49:'株式会社八海山',50:'Clase Azul Asia 株式会社',51:'株式会社RUDDER',52:'株式会社RUDDER',53:'プロキシモジャパン',54:'アサヒビール株式会社',55:'コカ・コーラボトラーズジャパン株式会社',56:'アクサス株式会社',57:'ミリオン商事',58:'株式会社コートーコーポレーション',59:'西酒造 御岳蒸留所',60:'ガイアフロー株式会社',61:'株式会社 信濃屋トレーディング',62:'日本酒類販売株式会社',63:'株式会社明治屋',64:'株式会社シトラム',65:'株式会社ユニケミー',66:'アンドスピリッツ株式会社',67:'株式会社ピーオーエス',68:'株式会社ウィスク・イー',69:'瑞鷹株式会社',70:'松井酒造合名会社',71:'三陽物産株式会社',72:'コルドンヴェール株式会社（やまや）',73:'フードライナー',74:'合同会社グローバルグロサリー',75:'株式会社USEN',76:'業務用備品センター',77:'AUN Smoke & 有限会社ノイエンタープライズ（葉巻）',78:'オーリック（ガチャガチャ）',79:'オーリック（ボトル・グラス・水販売）'};
+const sp=[75,76,77,78,79];
+function S(n){document.getElementById('mn').textContent='ブース '+n;document.getElementById('mc').textContent=co[n]||'—';document.getElementById('ov').classList.add('on');}
+function cls(){document.getElementById('ov').classList.remove('on');}
+function showTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',(i===0&&t==='map')||(i===1&&t==='list')));
+  document.getElementById('mv').style.display=t==='map'?'block':'none';
+  document.getElementById('lv').style.display=t==='list'?'block':'none';
+  if(t==='list')bld('');
+}
+function bld(q){
+  document.getElementById('lig').innerHTML=Object.entries(co).filter(([n,c])=>!q||c.includes(q)||n===q)
+    .map(([n,c])=>`<div class="li" onclick="showTab('map');scrollTo(0,0);S(${n})"><div class="lnum${sp.includes(+n)?' sp':''}">${n}</div><div class="lname">${c}</div></div>`).join('');
+}
+function flt(q){bld(q);}
+</script>
+</body>
+</html>
