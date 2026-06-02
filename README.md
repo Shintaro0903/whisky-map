@@ -1,0 +1,278 @@
+[whisky_map.html](https://github.com/user-attachments/files/28488953/whisky_map.html)
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ウイスキーマップ">
+<meta name="theme-color" content="#0F6E56">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ウイスキー試飲会 会場マップ</title>
+<style>
+:root{--td:#0F6E56;--tm:#1D9E75;--tl:#E1F5EE;--al:#FAEEDA;--ad:#854F0B;
+      --gb:#F0EFEC;--gm:#B4B2A9;--gd:#3a3a38;--wall:#C8C6C0;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:-apple-system,'Hiragino Sans',sans-serif;background:#F5F4F1;color:var(--gd);}
+.hdr{background:var(--td);color:#fff;padding:14px 16px 10px;position:sticky;top:0;z-index:100;}
+.hdr h1{font-size:15px;font-weight:700;}
+.hdr p{font-size:11px;opacity:.75;margin-top:2px;}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #E0DED8;position:sticky;top:57px;z-index:99;}
+.tab{flex:1;padding:11px 4px;font-size:13px;font-weight:600;text-align:center;color:var(--gm);
+     border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;}
+.tab.on{color:var(--td);border-bottom-color:var(--tm);}
+#mv{display:block;padding:12px 10px;}#lv{display:none;}
+.venue{display:flex;flex-direction:column;}
+.hall{background:#ECEAE6;border:1px solid #C8C6C0;border-radius:10px 10px 0 0;padding:10px 8px 12px;}
+.hlbl{font-size:9px;color:var(--gm);text-align:center;margin-bottom:8px;}
+.top-row{display:flex;justify-content:center;gap:3px;margin-bottom:8px;}
+.mr{display:flex;align-items:flex-start;width:100%;}
+.wc{display:flex;flex-direction:column;gap:3px;flex-shrink:0;}
+.wl{font-size:8px;color:var(--gm);text-align:center;margin-bottom:3px;}
+.ai{flex:1;display:flex;align-items:center;justify-content:center;min-width:0;padding-top:26px;}
+.ai span{writing-mode:vertical-rl;font-size:8px;color:var(--gm);letter-spacing:2px;}
+.isl{display:flex;gap:3px;flex-shrink:0;}
+.ic{display:flex;flex-direction:column;gap:3px;}
+.ic.off{padding-top:26px;}
+.il{font-size:8px;color:var(--gm);text-align:center;margin-bottom:3px;}
+.b{width:30px;height:24px;border:.5px solid var(--td);border-radius:3px;background:var(--tl);
+   display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;
+   color:var(--td);cursor:pointer;flex-shrink:0;}
+.b:active{background:var(--tm);color:#fff;}
+.b.sp{background:var(--al);border-color:var(--ad);color:var(--ad);}
+.b.sp:active{background:#EF9F27;color:#fff;}
+.b.lg{width:34px;height:27px;font-size:10.5px;}
+.fb{height:13px;background:var(--gm);border-left:1px solid #C8C6C0;border-right:1px solid #C8C6C0;
+    display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;}
+.db{height:16px;background:#ECEAE6;border-left:1px solid #C8C6C0;border-right:1px solid #C8C6C0;
+    display:flex;align-items:flex-end;justify-content:space-around;padding:0 24px;}
+.dr{width:36px;height:10px;border:1px solid #aaa;border-bottom:none;border-radius:2px 2px 0 0;background:#fff;}
+.fp{background:#F2F1ED;border:1px solid #C8C6C0;border-top:none;border-radius:0 0 10px 10px;padding:7px 7px 6px;}
+.rm{background:var(--wall);border:.5px solid #999;border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:7px;color:var(--gd);text-align:center;line-height:1.2;padding:1px 2px;flex-shrink:0;}
+.vb{background:var(--wall);border:.5px solid #999;border-radius:2px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;}
+.vb span{writing-mode:vertical-rl;font-size:6.5px;color:var(--gd);}
+.top-zone{display:flex;align-items:flex-start;gap:3px;margin-bottom:3px;}
+.toilet-col{display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
+.mid-col{display:flex;flex-direction:column;gap:2px;margin-left:6px;}
+.right-col{margin-left:auto;display:flex;gap:3px;}
+.men-row{margin-bottom:3px;}
+.psev-row{display:flex;gap:3px;margin-bottom:3px;}
+.sm{width:24px;height:20px;font-size:7px;}
+.skew-row{display:flex;gap:3px;margin-bottom:3px;}
+.evh{font-size:7px;color:var(--gd);writing-mode:vertical-rl;padding:0 1px;display:flex;align-items:center;flex-shrink:0;}
+.skew{background:#D0CEC9;border-radius:3px;flex:1;padding:4px;
+      clip-path:polygon(0 0,100% 0,100% 35%,45% 100%,0 100%);display:flex;gap:3px;}
+.ent{border:1.5px dashed var(--tm);border-radius:6px;padding:7px;
+     text-align:center;font-size:12px;font-weight:700;color:var(--td);margin-top:2px;}
+/* モーダル */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end;}
+.ov.on{display:flex;}
+.modal{background:#fff;border-radius:16px 16px 0 0;padding:20px 20px 36px;width:100%;
+       animation:su .22s ease;max-height:80vh;overflow-y:auto;}
+@keyframes su{from{transform:translateY(80px);opacity:0}to{transform:translateY(0);opacity:1}}
+.mbar{width:36px;height:4px;background:#E0DED8;border-radius:2px;margin:0 auto 16px;}
+.mnum{font-size:11px;color:var(--gm);margin-bottom:4px;font-weight:500;}
+.mname{font-size:18px;font-weight:700;color:var(--gd);line-height:1.4;margin-bottom:12px;}
+.mcatch{background:linear-gradient(135deg,#E8F7F2,#F5FAF8);border-left:3px solid var(--tm);
+        border-radius:0 8px 8px 0;padding:10px 14px;font-size:13px;color:#1a4a3a;
+        line-height:1.7;font-style:italic;margin-bottom:4px;}
+.minq{margin-top:12px;width:100%;padding:13px;background:#F59E0B;color:#fff;
+      border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;}
+.minq:active{background:#D97706;}
+.mcls{margin-top:10px;width:100%;padding:13px;background:var(--td);color:#fff;
+      border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;}
+/* 一覧 */
+.sw{padding:10px 12px;background:#fff;border-bottom:1px solid #ECEAE6;position:sticky;top:97px;z-index:90;}
+.sw input{width:100%;padding:9px 12px;border:1px solid #E0DED8;border-radius:8px;font-size:14px;background:var(--gb);}
+.liw{padding:6px 0 32px;}
+.li{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:.5px solid #ECEAE6;background:#fff;cursor:pointer;}
+.li:active{background:var(--tl);}
+.lnum{width:28px;height:28px;border-radius:6px;background:var(--tl);border:.5px solid var(--td);
+      display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--td);flex-shrink:0;}
+.lnum.sp{background:var(--al);border-color:var(--ad);color:var(--ad);}
+.lname{font-size:13px;line-height:1.4;}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <h1>🥃 ウイスキー試飲会　会場マップ</h1>
+  <p>全79ブース　— タップするとブース情報が表示されます</p>
+</div>
+<div class="tabs">
+  <button class="tab on" onclick="showTab('map')">会場マップ</button>
+  <button class="tab"    onclick="showTab('list')">出展社一覧</button>
+</div>
+
+<div id="mv">
+<div class="venue">
+  <div class="hall">
+    <div class="hlbl">― 奥（非入口側） ―</div>
+    <div class="top-row">
+      <div class="b" onclick="S(13)">13</div><div class="b" onclick="S(14)">14</div>
+      <div class="b" onclick="S(15)">15</div><div class="b" onclick="S(16)">16</div>
+      <div class="b" onclick="S(17)">17</div><div class="b" onclick="S(18)">18</div>
+    </div>
+    <div class="mr">
+      <div class="wc"><div class="wl">左壁</div>
+        <div class="b" onclick="S(12)">12</div><div class="b" onclick="S(11)">11</div>
+        <div class="b" onclick="S(10)">10</div><div class="b" onclick="S(9)">9</div>
+        <div class="b" onclick="S(8)">8</div><div class="b" onclick="S(7)">7</div>
+        <div class="b" onclick="S(6)">6</div><div class="b" onclick="S(5)">5</div>
+        <div class="b" onclick="S(4)">4</div><div class="b" onclick="S(3)">3</div>
+        <div class="b" onclick="S(2)">2</div><div class="b" onclick="S(1)">1</div>
+      </div>
+      <div class="ai"><span>通路</span></div>
+      <div class="isl">
+        <div class="ic"><div class="il">左島</div>
+          <div class="b" onclick="S(64)">64</div><div class="b" onclick="S(65)">65</div>
+          <div class="b" onclick="S(66)">66</div><div class="b" onclick="S(67)">67</div>
+          <div class="b" onclick="S(68)">68</div><div class="b" onclick="S(69)">69</div>
+          <div class="b" onclick="S(70)">70</div><div class="b" onclick="S(71)">71</div>
+          <div class="b" onclick="S(72)">72</div><div class="b" onclick="S(73)">73</div>
+          <div class="b" onclick="S(74)">74</div>
+        </div>
+        <div class="ic off">
+          <div class="b" onclick="S(63)">63</div><div class="b" onclick="S(62)">62</div>
+          <div class="b" onclick="S(61)">61</div><div class="b" onclick="S(60)">60</div>
+          <div class="b" onclick="S(59)">59</div><div class="b" onclick="S(58)">58</div>
+          <div class="b" onclick="S(57)">57</div><div class="b" onclick="S(56)">56</div>
+          <div class="b" onclick="S(55)">55</div><div class="b" onclick="S(54)">54</div>
+          <div class="b" onclick="S(53)">53</div>
+        </div>
+      </div>
+      <div class="ai"><span>通路</span></div>
+      <div class="isl">
+        <div class="ic off">
+          <div class="b" onclick="S(42)">42</div><div class="b" onclick="S(43)">43</div>
+          <div class="b" onclick="S(44)">44</div><div class="b" onclick="S(45)">45</div>
+          <div class="b" onclick="S(46)">46</div><div class="b" onclick="S(47)">47</div>
+          <div class="b" onclick="S(48)">48</div><div class="b" onclick="S(49)">49</div>
+          <div class="b" onclick="S(50)">50</div><div class="b" onclick="S(51)">51</div>
+          <div class="b" onclick="S(52)">52</div>
+        </div>
+        <div class="ic"><div class="il">右島</div>
+          <div class="b" onclick="S(41)">41</div><div class="b" onclick="S(40)">40</div>
+          <div class="b" onclick="S(39)">39</div><div class="b" onclick="S(38)">38</div>
+          <div class="b" onclick="S(37)">37</div><div class="b" onclick="S(36)">36</div>
+          <div class="b" onclick="S(35)">35</div><div class="b" onclick="S(34)">34</div>
+          <div class="b" onclick="S(33)">33</div><div class="b" onclick="S(32)">32</div>
+          <div class="b" onclick="S(31)">31</div>
+        </div>
+      </div>
+      <div class="ai"><span>通路</span></div>
+      <div class="wc"><div class="wl">右壁</div>
+        <div class="b" onclick="S(19)">19</div><div class="b" onclick="S(20)">20</div>
+        <div class="b" onclick="S(21)">21</div><div class="b" onclick="S(22)">22</div>
+        <div class="b" onclick="S(23)">23</div><div class="b" onclick="S(24)">24</div>
+        <div class="b" onclick="S(25)">25</div><div class="b" onclick="S(26)">26</div>
+        <div class="b" onclick="S(27)">27</div><div class="b" onclick="S(28)">28</div>
+        <div class="b" onclick="S(29)">29</div><div class="b" onclick="S(30)">30</div>
+      </div>
+    </div>
+  </div>
+  <div class="fb">8 階ホワイエ</div>
+  <div class="db"><div class="dr"></div><div class="dr"></div><div class="dr"></div></div>
+  <div class="fp">
+    <div class="top-zone">
+      <div class="toilet-col">
+        <div class="vb" style="width:20px;height:34px;"><span>女性トイレ</span></div>
+        <div class="vb" style="width:20px;height:34px;"><span>多目的トイレ</span></div>
+      </div>
+      <div class="mid-col">
+        <div style="display:flex;gap:3px;">
+          <div class="b sp lg" onclick="S(75)">75</div>
+          <div class="b sp lg" onclick="S(76)">76</div>
+        </div>
+        <div class="rm" style="width:72px;height:36px;font-size:9.5px;">自販機</div>
+      </div>
+      <div class="right-col">
+        <div class="b sp lg" onclick="S(77)">77</div>
+        <div class="b sp lg" onclick="S(78)">78</div>
+        <div class="b sp lg" onclick="S(79)">79</div>
+      </div>
+    </div>
+    <div class="men-row">
+      <div class="vb" style="width:100%;height:20px;"><span style="writing-mode:horizontal-tb;font-size:7.5px;">男性トイレ</span></div>
+    </div>
+    <div class="psev-row">
+      <div class="rm sm">PS</div>
+      <div class="rm sm">EV</div>
+      <div class="rm sm">EV</div>
+      <div class="rm sm">EV</div>
+    </div>
+    <div class="skew-row">
+      <div class="evh">EVホール</div>
+      <div class="skew">
+        <div class="rm" style="width:40px;height:26px;font-size:7.5px;">受付</div>
+        <div class="rm" style="width:44px;height:26px;font-size:7px;">一般<br>飲食店</div>
+      </div>
+    </div>
+    <div class="ent">▲ 入　口</div>
+  </div>
+</div>
+</div>
+
+<div id="lv">
+  <div class="sw"><input type="search" placeholder="🔍 社名・ブース番号で検索..." oninput="flt(this.value)" autocomplete="off"></div>
+  <div class="liw" id="lig"></div>
+</div>
+
+<div class="ov" id="ov" onclick="if(event.target===this)cls()">
+  <div class="modal">
+    <div class="mbar"></div>
+    <div class="mnum" id="mn"></div>
+    <div class="mname" id="mc"></div>
+    <div class="mcatch" id="mcp" style="display:none;"></div>
+    <a class="minq" id="minq" href="#" target="_blank" style="display:none;">📋 見積もりを依頼する</a>
+    <button class="mcls" onclick="cls()">閉じる</button>
+  </div>
+</div>
+
+<script>
+const co={1:'株式会社サクラオB＆D',2:'株式会社キムラ',3:'サッポロビール株式会社',4:'アイディ商事',5:'ペルノリカールジャパン株式会社',6:'株式会社篠崎',7:'日仏貿易株式会社',8:'ユニオンリカーズ株式会社',9:'小正醸造株式会社',10:'株式会社三宅本店',11:'ジェイドックス株式会社',12:'株式会社シンシア',13:'MHDモエヘネシーディアジオ㈱',14:'株式会社モトックス',15:'Whiskey&Co.株式会社',16:'キリンビール株式会社',17:'ジャパンインポートシステム株式会社',18:'明石酒類醸造株式会社',19:'サントリー株式会社',20:'株式会社ＥＦＭ',21:'CAMPARI JAPAN 株式会社',22:'株式会社紅乙女酒造',23:'リードオフジャパン株式会社',24:'本坊酒造株式会社',25:'株式会社　Returner Japan',26:'国分九州株式会社',27:'ディアジオジャパン株式会社',28:'黄桜株式会社',29:'マルカイコーポレーション株式会社',30:'ジャパニーズウイスキーストーリーズ福岡＆MAZZO',31:'ブラウンフォーマンジャパン株式会社',32:'有限会社佐多宗二商店',33:'株式会社本坊商店',34:'霧島酒造株式会社',35:'株式会社シングルキャスクジャパン',36:'株式会社堤酒造',37:'レミーコアントロージャパン株式会社',38:'高橋酒造株式会社',39:'レッドブル・ジャパン株式会社',40:'株式会社新潟小規模蒸溜所',41:'Nozawa Onsen Distillery株式会社',42:'株式会社都光',43:'株式会社都光',44:'有限会社 サンアップル醸造ジャパン',45:'宝酒造株式会社',46:'株式会社喜多屋',47:'三菱食品株式会社',48:'小牧醸造株式会社',49:'株式会社八海山',50:'Clase Azul Asia 株式会社',51:'株式会社RUDDER',52:'株式会社RUDDER',53:'プロキシモジャパン株式会社',54:'アサヒビール株式会社',55:'コカ・コーラボトラーズジャパン株式会社',56:'アクサス株式会社',57:'ミリオン商事',58:'株式会社コートーコーポレーション',59:'西酒造　御岳蒸留所',60:'ガイアフロー株式会社',61:'株式会社　信濃屋トレーディング',62:'日本酒類販売株式会社',63:'株式会社明治屋',64:'株式会社シトラム',65:'株式会社ユニケミー',66:'アンドスピリッツ株式会社',67:'株式会社ピーオーエス',68:'株式会社ウィスク・イー',69:'瑞鷹株式会社(ずいよう）',70:'松井酒造合名会社',71:'三陽物産株式会社',72:'コルドンヴェール株式会社（やまや）',73:'株式会社フードライナー',74:'合同会社グローバルグロサリー',75:'株式会社USEN',76:'業務用備品センター(サントリーマーケティング&コマース株式会社)',77:'AUN Smoke & 有限会社ノイエンタープライズ（葉巻）',78:'オーリック（ガチャガチャ）',79:'オーリック（ボトル・グラス・水販売）'};
+
+const cp={1:'瀬戸内の潮風と豊かな山々に抱かれた、廿日市の蒸留所。この地だからこそ生まれた、芳醇な香りと深い余韻をそのグラスに。',2:'「リカーランドキムラ」が独自の視点で厳選。世界中の蒸留所から届いた、圧倒的な個性とクオリティを体感してください。',3:'開拓使麦酒醸造所から始まった挑戦の歴史。サッポロビールが厳選した、妥協なき至高の銘酒を。',4:'原材料から製法まで、アイデイ商事が厳選した世界中の稀少なクラフトスピリッツを、心ゆくまで。',5:'シーバスリーガル、ザ・グレンリベットをはじめ、世界を魅了するペルノ・リカールの名門コレクションを一堂に。',6:'「200年続く福岡の老舗蔵が挑む、革新のクラフトウイスキー。」',7:'日仏貿易が厳選した、伝統と気品が宿るプレミアムライン。日常を特別な時間へと変える、奥行きのある一杯をご堪能ください。',8:'ユニオンリカーズが届ける、世界中の名門蒸留所が生んだ傑作たち。一滴に込められた物語を、専門の目利きが厳選したコレクションで。',9:'創業140年超、伝統を革新し続ける小正醸造の挑戦。メローな香りと深い余韻を湛えた、至高のジャパニーズ・ウイスキーを。',10:'「千福」で培われた醸造技術を、魂を込めた一滴に。瀬戸内蒸留所から届ける、繊細で奥深い味わいをご体感ください。',11:'ジェイドックスが世界中から厳選した、妥協なき銘酒の数々。まだ見ぬ感動を、そのグラスに注ぎ込みます。',12:'シンシア（誠実）の名のもとに、厳選された特別なコレクション。造り手の情熱が息づく、まだ見ぬ名酒との出会いをお届けします。',13:'「ラグジュアリーの真髄を、その一杯に。世界中の愛好家が憧れる、最高峰のコレクションを今ここで。」',14:'ワインで培った妥協なき選定眼で、世界中の名酒をセレクト。モトックスが自信を持って届ける、造り手の情熱が息づく銘酒たち。',15:'静岡・三島から世界へ。Web3とクラフトマンシップが融合した、全く新しいジャパニーズ・ウイスキーのカタチを体感してください。',16:'富士御殿場蒸溜所が贈る、世界が認めたクオリティ。清らかな水と澄んだ空気が育んだ、繊細で奥深い香りをその一杯に。',17:'「あなたの『最高の一杯』を塗り替える。ジャパンインポートが贈る、プレミアム・スピリッツの最前線。」',18:'「酒造りの誇りを、世界基準のウイスキーへ。明石酒類醸造が挑む、妥協なきクラフトの真髄。」',19:'「ジャパニーズ・ウイスキーの原点にして、最高峰。100年を超えて進化し続ける、伝統の真髄を今ここに。」',20:'「すべてはお客様の『うまい』のために。EFMが情熱を注いで選び抜いた、世界のプレミアムスピリッツ。」',21:'ワイルドターキー、ザ・グレングラント。時を超えて愛される名門から、新しい時代を創る一杯まで。カンパリジャパンが贈る、プレミアムな感動をそのグラスに。',22:'胡麻祥酎の先駆者が贈る、香りと味わいのハーモニー。長い年月が育んだ、まろやかで奥深い至高の雫をご堪能ください。',23:'「名酒の境界線を塗り替える。リードオフジャパンが贈る、世界基準の『今』を体感してください。」',24:'中央アルプスの清流と、南国・鹿児島の情熱。異なる環境が育んだ唯一無二の個性を、本坊酒造のクラフトマンシップで。',25:'「本物の紅茶より、紅茶らしい。職人技が引き出した、茶葉本来のピュアな輝きを今ここで。」',26:'300年を超える歴史と信頼を礎に、国分九州が厳選。地域に根ざしたネットワークで見出した、物語のある銘酒をそのグラスに。',27:'「世界が選んだ、本物の証。ディアジオが届ける、プレミアム・スピリッツの圧倒的な世界観。」',28:'清酒造りで磨かれた繊細な技術と、丹波の自然が育んだ豊かな余韻。「丹波蒸溜所」から届ける、誠実で奥深い「一滴」をご体感ください。',29:'「果実そのものを、グラスの中へ。妥協なき素材選びが叶えた、濃厚で贅沢な『飲む芸術』を。」',30:'「ジャパニーズウイスキーストーリーズ」が贈る、至高のドキュメンタリー。伝統の重みと、Bar MAZZOが提案する「ノンアルコールジン」の革新を、その五感で体感してください。',31:'ジャックダニエル、ウッドフォードリザーブ、ベンリアック——。世界中で愛される名門ブランドが、時代を超えて愛される「本物の味わい」をお届けします。',32:'「アランビック蒸留機が奏でる、香りの芸術。佐多宗二商店が贈る、プレミアム・スピリッツの新しい形。」',33:'創業明治二十年。培われたネットワークと確かな選定眼で、本坊商店が厳選した、時代を超えて愛される「本物の銘酒」をご堪能ください。',34:'霧島山麓の恵みと、百余年の歴史が育んだ確かな技。本格焼酎の枠を超え、世界基準の「蒸留酒」を目指す霧島酒造の新たな挑戦。',35:'「あなただけの運命の一滴。シングルキャスクジャパンが贈る、贅を尽くした一期一会の体験。」',36:'「日本が誇る蒸留の技、世界を魅了するジンへ。繊細かつ大胆な、和製クラフトの真髄を今ここで。」',37:'「アイラ島の風土を、ありのままに。伝統を革新する『ブルックラディ』が贈る、妥協なき挑戦の記録。」',38:'「伝説が、ここから始まる。人吉の風土と高橋酒造の誇りが結実した、新蒸留所の第一歩をその手に。」',39:'「ココロ、カラダ、みなぎる。ウイスキーフェスの興奮を、レッドブルとともに。」',40:'「伝統を醸し、未来を創る。新潟・亀田の地から発信する、クラフト・ウイスキーの新たな挑戦状。」',41:'「温泉地の誇り、蒸留の新境地。野沢温泉蒸留所が贈る、伝統とモダンが交差する至高の一滴。」',42:'「名酒の真髄を、日本の愛好家へ。都光が厳選した、プレミアムスピリッツの新しい世界を体感してください。」',43:'「名酒の真髄を、日本の愛好家へ。都光が厳選した、プレミアムスピリッツの新しい世界を体感してください。」',44:'「手造りの誇り、果実蒸留の極致。信州産のリンゴが生んだ、唯一無二のジャパニーズ・ブランデーをあなたに。」',45:'宝酒造が長年積み上げてきた「樽貯蔵熟成」の圧倒的な知見。選び抜かれた原酒が織りなす、繊細で奥深い香りと、ジャパニーズ・スピリッツの新たな可能性をそのグラスに注ぎます。',46:'「福岡・八女から世界を酔わせる一滴。歴史ある蔵元の誇りを込めた、プレミアムな味わいを今ここで。」',47:'三菱食品が培ったグローバルなネットワークと、妥協なき選定眼。世界中の蒸留所から選び抜かれた、プレミアムな物語とクオリティを、今、あなたの五感でお確かめください。',48:'「一世紀の伝統、さらなる高みへ。薩摩の風土が育んだ、ジャパニーズ・スピリッツの新たな頂を体感してください。」',49:'「一滴に宿る、清澄なる魂。八海山だからこそ辿り着いた、雑味なきピュアな香りと深い熟成。」',50:'職人の手仕事が光る独創的なデキャンタと、至高の味わい。「クラセアズール」が贈る、テキーラの概念を覆す芳醇な香りと、深い情熱が宿るプレミアムなひとときを、その手に。',51:'「まだ見ぬ『究極』へ、あなたを誘う。ウイスキーを愛するすべての人へ、RUDDERが贈る最高峰のセレクション。」',52:'「まだ見ぬ『究極』へ、あなたを誘う。ウイスキーを愛するすべての人へ、RUDDERが贈る最高峰のセレクション。」',53:'「一杯のグラスから、物語が始まる。プロキシモジャパンが贈る、遊び心と情熱に満ちたスピリッツ体験を。」',54:'ニッカウヰスキーが歩んできた、90年の挑戦と誇り。余市、宮城峡——。北の大地と杜の都が育んだ、世界が認めた至高の琥珀色を、そのグラスに。',55:'「感性を研ぎ澄ます、一時の休息。次の物語へ向かうための、清らかな潤いをコカ・コーラボトラーズから。」',56:'「日常を贅沢に、人生に彩りを。アクサスが厳選した、世界基準のプレミアムスピリッツ・セレクション。」',57:'「一滴に宿る、圧倒的な気品。ミリオン商事が厳選した、世界のプレミアム・スピリッツが誘う至福の世界。」',58:'「本物だけが持つ、色褪せない輝き。コートーコーポレーションが届ける、プレミアムスピリッツの新しい世界。」',59:'「空に一番近い蒸留所から。西酒造・御岳が贈る、唯一無二の琥珀色。」',60:'世界初の薪直火蒸留機と、伝説の蒸留機が織りなす圧倒的な個性。ガイアフロー静岡蒸溜所が贈る、力強くも繊細な「一滴」の物語を、今、あなたの五感で確かめてください',61:'「名酒の境界線を塗り替える。信濃屋トレーディングが贈る、比類なきプレミアム・ボトリングの真髄。」',62:'「名酒の真髄を、日本のグラスへ。日酒販が厳選した、プレミアム・スピリッツの圧倒的なコレクションを体感してください。」',63:'「本物だけが持つ、色褪せない輝き。1885年の創業より受け継がれる、確かな目利きが生んだ感動を今ここで。」',64:'「濃厚な余韻を、爽快にリセット。フルーティーな香りの魔法、クライナーが提案する新しいフェスの愉しみ方。」',65:'「グラスの中の、天体観測。科学が導き出した『宇宙の正体』を、鮮烈なジンの香りで体感する。」',66:'アンドスピリッツが独自の感性で厳選した、世界中の稀少なボトルたち。「飲む商店街」のようなワクワク感とともに、あなたを虜にする、まだ見ぬ至高の「一滴」との出会いをお届けします。',67:'「一滴に宿る、北欧の美意識。株式会社ピーオーエスが贈る、静謐なるプレミアム体験。」',68:'「名酒の真髄を、日本の愛好家へ。ウィスク・イーが贈る、妥協なき選定眼が引き出した至高のコレクション。」',69:'「水の都・熊本の恵みを、一滴の雫に。瑞鷹が贈る、静謐なる熟成が生んだ唯一無二の輝き。」',70:'「世界が認めた、本物の輝き。山陰の風土が生み出した、松井ウイスキーの最高峰を体感してください。」',71:'「まだ見ぬ名酒との、運命の出会いを。インポーターの誇りと知識が選び抜いた、唯一無二の物語を今ここで。」',72:'「名酒の真髄を、心ゆくまで。コルドンヴェールが届ける、世界基準のプレミアムスピリッツ・コレクション。」',73:'「本物だけが持つ、気品ある輝き。フードライナーが贈る、プレミアム・スピリッツの新しい感性を体感してください。」',74:'グローバルグロサリーが、世界中の蒸留所から直接発掘した至高のコレクション。流行に左右されない、造り手の情熱と風土が宿る「本物の味わい」を、今、あなたの五感でお確かめください。',75:'「お店の未来を、共に醸す。USENのソリューションが、お酒と人を繋ぐ理想の空間を創造します。」',76:'「お店の『困った』を、解決に変える。業務用備品センターが提案する、効率的で美しい店舗スタイリング。」',77:'素材の旨味を凝縮したAUN Smokeの燻製と、ノイエンタープライズが厳選したプレミアムシガー。ウイスキーの香りを何倍にも引き立てる、贅を尽くした「煙」のペアリングをご堪能ください。',78:'「お酒のプロが惚れ込んだ一滴。株式会社オーリックが彩る、プレミアムな体験。」',79:'「お酒のプロが惚れ込んだ一滴。株式会社オーリックが彩る、プレミアムな体験。」'};
+
+const sp=[75,76,77,78,79];
+
+const bu={1:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B01',2:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B02',3:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B03',4:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B04',5:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B05',6:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B06',7:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B07',8:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B08',9:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B09',10:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B10',11:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B11',12:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B12',13:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B13',14:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B14',15:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B15',16:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B16',17:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B17',18:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B18',19:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B19',20:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B20',21:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B21',22:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B22',23:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B23',24:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B24',25:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B25',26:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B26',27:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B27',28:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B28',29:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B29',30:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B30',31:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B31',32:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B32',33:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B33',34:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B34',35:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B35',36:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B36',37:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B37',38:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B38',39:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B39',40:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B40',41:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B41',42:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B42',43:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B43',44:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B44',45:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B45',46:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B46',47:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B47',48:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B48',49:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B49',50:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B50',51:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B51',52:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B52',53:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B53',54:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B54',55:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B55',56:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B56',57:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B57',58:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B58',59:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B59',60:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B60',61:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B61',62:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B62',63:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B63',64:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B64',65:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B65',66:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B66',67:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B67',68:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B68',69:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B69',70:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B70',71:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B71',72:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B72',73:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B73',74:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B74',75:'https://forms.cloud.microsoft/Pages/DesignPageV2.aspx?prevorigin=shell&origin=NeoPortalPage&subpage=design&id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUQlM5RFNGVTczUVVYNE9LNFJZN1EwSEtKRC4u',76:'https://forms.office.com/Pages/ResponsePage.aspx?id=MEHPAicSmU2rBYsqy3_xqsheL7Yo5FlIuNUHU-MbOZdUMVlNNVMzTkoxOFpSUUtOU1lCRTlISjBGVy4u&rb33c37d3d90d4fdaabc02770499437d2=B76',77:'https://aun-smoke.com/shop/'};
+
+function S(n){
+  document.getElementById('mn').textContent='ブース '+n;
+  document.getElementById('mc').textContent=co[n]||'—';
+  const catchEl=document.getElementById('mcp');
+  if(cp[n]){catchEl.textContent=cp[n];catchEl.style.display='block';}
+  else{catchEl.style.display='none';}
+  const inqEl=document.getElementById('minq');
+  if(bu[n]){
+    inqEl.href=bu[n];
+    inqEl.style.display='flex';
+    // 77番はショップリンクなのでラベル変更
+    inqEl.textContent=n===77?'🛍️ オンラインショップを見る':'📋 見積もりを依頼する';
+  } else {
+    inqEl.style.display='none';
+  }
+  document.getElementById('ov').classList.add('on');
+}
+function cls(){document.getElementById('ov').classList.remove('on');}
+function showTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',(i===0&&t==='map')||(i===1&&t==='list')));
+  document.getElementById('mv').style.display=t==='map'?'block':'none';
+  document.getElementById('lv').style.display=t==='list'?'block':'none';
+  if(t==='list')bld('');
+}
+function bld(q){
+  document.getElementById('lig').innerHTML=Object.entries(co).filter(([n,c])=>!q||c.includes(q)||n===q)
+    .map(([n,c])=>`<div class="li" onclick="showTab('map');scrollTo(0,0);S(${n})"><div class="lnum${sp.includes(+n)?' sp':''}">${n}</div><div class="lname">${c}</div></div>`).join('');
+}
+function flt(q){bld(q);}
+</script>
+</body>
+</html>
